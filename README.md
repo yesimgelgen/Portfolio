@@ -1,4 +1,4 @@
-# Portfolio
+# Portfolio https://medium.com/@ypurutcu/how-does-a-bike-share-navigate-speedy-success-c99848743d42
 
 WITH
   combined_rides AS ( 
