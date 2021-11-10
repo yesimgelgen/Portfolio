@@ -1,261 +1,416 @@
 # Portfolio https://medium.com/@ypurutcu/how-does-a-bike-share-navigate-speedy-success-c99848743d42
 CREATE TABLE IF NOT EXISTS `dataanalyst2021.cyclistic_bike_share.annual_rides`
 AS
-WITH
-  combined_rides AS ( 
-      #July 2020
+ ( 
+    #July 2020
   SELECT
-    ride_id,
     rideable_type,
+    member_casual,
+    EXTRACT(DAYOFWEEK
+    FROM
+      started_at) AS day_of_week,
+    start_station_name,
+    end_station_name,
+    timestamp_diff (ended_at,
+      started_at,
+      minute) AS trip_duration,
     CAST(started_at AS TIMESTAMP ) AS started_at,
     CAST(ended_at AS TIMESTAMP ) AS ended_at,
-    start_station_name,
     CAST(start_station_id AS STRING ) AS start_station_id,
-    end_station_name,
     CAST(end_station_id AS STRING ) AS end_station_id,
     start_lat,
     start_lng,
     end_lat,
     end_lng,
-    member_casual,
-    timestamp_diff (ended_at,started_at, minute) AS trip_duration,
-    EXTRACT(DAYOFWEEK FROM started_at) AS day_of_week
+    ride_id
   FROM
     `dataanalyst2021.cyclistic_bike_share.202007_tripdata`
-  UNION ALL
-    # August 2020
-  SELECT
-    ride_id,
-    rideable_type,
-    CAST(started_at AS TIMESTAMP ) AS started_at,
-    CAST(ended_at AS TIMESTAMP ) AS ended_at,
-    start_station_name,
-    CAST(start_station_id AS STRING ) AS start_station_id,
-    end_station_name,
-    CAST(end_station_id AS STRING ) AS end_station_id,
-    start_lat,
-    start_lng,
-    end_lat,
-    end_lng,
-    member_casual,
-    timestamp_diff (ended_at,started_at, minute) AS trip_duration,
-    EXTRACT(DAYOFWEEK FROM started_at) AS day_of_week
-  FROM
-    `dataanalyst2021.cyclistic_bike_share.202008_tripdata`
-  UNION ALL
-    #September 2020
-  SELECT
-    ride_id,
-    rideable_type,
-    CAST(started_at AS TIMESTAMP ) AS started_at,
-    CAST(ended_at AS TIMESTAMP ) AS ended_at,
-    start_station_name,
-    CAST(start_station_id AS STRING ) AS start_station_id,
-    end_station_name,
-    CAST(end_station_id AS STRING ) AS end_station_id,
-    start_lat,
-    start_lng,
-    end_lat,
-    end_lng,
-    member_casual,
-   timestamp_diff (ended_at,started_at, minute) AS trip_duration,
-    EXTRACT(DAYOFWEEK FROM started_at) AS day_of_week
-  FROM
-    `dataanalyst2021.cyclistic_bike_share.202009_tripdata`
-  UNION ALL
-    #October 2020
-  SELECT
-    ride_id,
-    rideable_type,
-    CAST(started_at AS TIMESTAMP ) AS started_at,
-    CAST(ended_at AS TIMESTAMP ) AS ended_at,
-    start_station_name,
-    CAST(start_station_id AS STRING ) AS start_station_id,
-    end_station_name,
-    CAST(end_station_id AS STRING ) AS end_station_id,
-    start_lat,
-    start_lng,
-    end_lat,
-    end_lng,
-    member_casual,
-    timestamp_diff (ended_at,started_at, minute) AS trip_duration,
-    EXTRACT(DAYOFWEEK FROM started_at) AS day_of_week
-  FROM
-    `dataanalyst2021.cyclistic_bike_share.202010_tripdata`
-  UNION ALL
-    # November 2020
-  SELECT
-    ride_id,
-    rideable_type,
-    CAST(started_at AS TIMESTAMP ) AS started_at,
-    CAST(ended_at AS TIMESTAMP ) AS ended_at,
-    start_station_name,
-    CAST(start_station_id AS STRING ) AS start_station_id,
-    end_station_name,
-    CAST(end_station_id AS STRING ) AS end_station_id,
-    start_lat,
-    start_lng,
-    end_lat,
-    end_lng,
-    member_casual,
-    timestamp_diff (ended_at,started_at, minute) AS trip_duration,
-    EXTRACT(DAYOFWEEK FROM started_at) AS day_of_week
- 
- FROM `dataanalyst2021.cyclistic_bike_share.202011_tripdata`
-  UNION ALL
-    #December 2020
-  SELECT
-    ride_id,
-    rideable_type,
-    CAST(started_at AS TIMESTAMP ) AS started_at,
-    CAST(ended_at AS TIMESTAMP ) AS ended_at,
-    start_station_name,
-    CAST(start_station_id AS STRING ) AS start_station_id,
-    end_station_name,
-    CAST(end_station_id AS STRING ) AS end_station_id,
-    start_lat,
-    start_lng,
-    end_lat,
-    end_lng,
-    member_casual,
-    timestamp_diff (ended_at,started_at, minute) AS trip_duration,
-    EXTRACT(DAYOFWEEK FROM started_at) AS day_of_week
-  FROM
-    `dataanalyst2021.cyclistic_bike_share.202012_tripdata`
-  UNION ALL
-    #January 2021
-  SELECT
-    ride_id,
-    rideable_type,
-    CAST(started_at AS TIMESTAMP ) AS started_at,
-    CAST(ended_at AS TIMESTAMP ) AS ended_at,
-    start_station_name,
-    CAST(start_station_id AS STRING ) AS start_station_id,
-    end_station_name,
-    CAST(end_station_id AS STRING ) AS end_station_id,
-    start_lat,
-    start_lng,
-    end_lat,
-    end_lng,
-    member_casual,
-    timestamp_diff (ended_at,started_at, minute) AS trip_duration,
-    EXTRACT(DAYOFWEEK FROM started_at) AS day_of_week
-  FROM
-    `dataanalyst2021.cyclistic_bike_share.202101_tripdata`
-  UNION ALL
-    #February 2021
-  SELECT
-    ride_id,
-    rideable_type,
-    CAST(started_at AS TIMESTAMP ) AS started_at,
-    CAST(ended_at AS TIMESTAMP ) AS ended_at,
-    start_station_name,
-    CAST(start_station_id AS STRING ) AS start_station_id,
-    end_station_name,
-    CAST(end_station_id AS STRING ) AS end_station_id,
-    start_lat,
-    start_lng,
-    end_lat,
-    end_lng,
-    member_casual,
-   timestamp_diff (ended_at,started_at, minute) AS trip_duration,
-    EXTRACT(DAYOFWEEK FROM started_at) AS day_of_week
-  FROM
-    `dataanalyst2021.cyclistic_bike_share.202102_tripdata`
-  UNION ALL
-    #March 2021
-  SELECT
-    ride_id,
-    rideable_type,
-    CAST(started_at AS TIMESTAMP ) AS started_at,
-    CAST(ended_at AS TIMESTAMP ) AS ended_at,
-    start_station_name,
-    CAST(start_station_id AS STRING ) AS start_station_id,
-    end_station_name,
-    CAST(end_station_id AS STRING ) AS end_station_id,
-    start_lat,
-    start_lng,
-    end_lat,
-    end_lng,
-    member_casual,
-    timestamp_diff (ended_at,started_at, minute) AS trip_duration,
-    EXTRACT(DAYOFWEEK FROM started_at) AS day_of_week
-  FROM
-    `dataanalyst2021.cyclistic_bike_share.202103_tripdata`
-  UNION ALL
-    #April 2021
-  SELECT
-    ride_id,
-    rideable_type,
-    CAST(started_at AS TIMESTAMP ) AS started_at,
-    CAST(ended_at AS TIMESTAMP ) AS ended_at,
-    start_station_name,
-    CAST(start_station_id AS STRING ) AS start_station_id,
-    end_station_name,
-    CAST(end_station_id AS STRING ) AS end_station_id,
-    start_lat,
-    start_lng,
-    end_lat,
-    end_lng,
-    member_casual,
-    timestamp_diff (ended_at,started_at, minute) AS trip_duration,
-    EXTRACT(DAYOFWEEK FROM started_at) AS day_of_week
-  FROM
-    `dataanalyst2021.cyclistic_bike_share.202104_tripdata`
-  UNION ALL
-    #May 2021
-  SELECT
-    ride_id,
-    rideable_type,
-    CAST(started_at AS TIMESTAMP ) AS started_at,
-    CAST(ended_at AS TIMESTAMP ) AS ended_at,
-    start_station_name,
-    CAST(start_station_id AS STRING ) AS start_station_id,
-    end_station_name,
-    CAST(end_station_id AS STRING ) AS end_station_id,
-    start_lat,
-    start_lng,
-    end_lat,
-    end_lng,
-    member_casual,
-    timestamp_diff (ended_at,started_at, minute) AS trip_duration,
-    EXTRACT(DAYOFWEEK FROM started_at) AS day_of_week
-  FROM
-    `dataanalyst2021.cyclistic_bike_share.202105_tripdata`
-  UNION ALL
-    #June 2021
-  SELECT
-    ride_id,
-    rideable_type,
-    CAST(started_at AS TIMESTAMP ) AS started_at,
-    CAST(ended_at AS TIMESTAMP ) AS ended_at,
-    start_station_name,
-    CAST(start_station_id AS STRING ) AS start_station_id,
-    end_station_name,
-    CAST(end_station_id AS STRING ) AS end_station_id,
-    start_lat,
-    start_lng,
-    end_lat,
-    end_lng,
-    member_casual,
-    timestamp_diff (ended_at,started_at, minute) AS trip_duration,
-    EXTRACT(DAYOFWEEK FROM started_at) AS day_of_week
-  FROM
-    `dataanalyst2021.cyclistic_bike_share.202106_tripdata` )
-
-SELECT * FROM combined_rides
- WHERE
+  WHERE
     NOT( start_station_id IS NULL
       OR end_station_id IS NULL
       OR start_lat IS NULL
       OR end_lat IS NULL
       OR start_station_name LIKE '%CHECKING%'
       OR end_station_name LIKE '%CHECKING%'
-      OR trip_duration < 1)
-
-ORDER BY started_at DESC;
-
-#ANALYSIS by min, max, sum,mean of ride_length  
+      OR timestamp_diff (ended_at,
+        started_at,
+        minute) < 1 )
+  UNION ALL
+    # August 2020
+  SELECT
+    rideable_type,
+    member_casual,
+    EXTRACT(DAYOFWEEK
+    FROM
+      started_at) AS day_of_week,
+    start_station_name,
+    end_station_name,
+    timestamp_diff (ended_at,
+      started_at,
+      minute) AS trip_duration,
+    CAST(started_at AS TIMESTAMP ) AS started_at,
+    CAST(ended_at AS TIMESTAMP ) AS ended_at,
+    CAST(start_station_id AS STRING ) AS start_station_id,
+    CAST(end_station_id AS STRING ) AS end_station_id,
+    start_lat,
+    start_lng,
+    end_lat,
+    end_lng,
+    ride_id
+  FROM
+    `dataanalyst2021.cyclistic_bike_share.202008_tripdata`
+  WHERE
+    NOT( start_station_id IS NULL
+      OR end_station_id IS NULL
+      OR start_lat IS NULL
+      OR end_lat IS NULL
+      OR start_station_name LIKE '%CHECKING%'
+      OR end_station_name LIKE '%CHECKING%'
+      OR timestamp_diff (ended_at,
+        started_at,
+        minute) < 1 )
+  UNION ALL
+    #September 2020
+  SELECT
+    rideable_type,
+    member_casual,
+    EXTRACT(DAYOFWEEK
+    FROM
+      started_at) AS day_of_week,
+    start_station_name,
+    end_station_name,
+    timestamp_diff (ended_at,
+      started_at,
+      minute) AS trip_duration,
+    CAST(started_at AS TIMESTAMP ) AS started_at,
+    CAST(ended_at AS TIMESTAMP ) AS ended_at,
+    CAST(start_station_id AS STRING ) AS start_station_id,
+    CAST(end_station_id AS STRING ) AS end_station_id,
+    start_lat,
+    start_lng,
+    end_lat,
+    end_lng,
+    ride_id
+  FROM
+    `dataanalyst2021.cyclistic_bike_share.202009_tripdata`
+  WHERE
+    NOT( start_station_id IS NULL
+      OR end_station_id IS NULL
+      OR start_lat IS NULL
+      OR end_lat IS NULL
+      OR start_station_name LIKE '%CHECKING%'
+      OR end_station_name LIKE '%CHECKING%'
+      OR timestamp_diff (ended_at,
+        started_at,
+        minute) < 1 )
+  UNION ALL
+    #October 2020
+  SELECT
+    rideable_type,
+    member_casual,
+    EXTRACT(DAYOFWEEK
+    FROM
+      started_at) AS day_of_week,
+    start_station_name,
+    end_station_name,
+    timestamp_diff (ended_at,
+      started_at,
+      minute) AS trip_duration,
+    CAST(started_at AS TIMESTAMP ) AS started_at,
+    CAST(ended_at AS TIMESTAMP ) AS ended_at,
+    CAST(start_station_id AS STRING ) AS start_station_id,
+    CAST(end_station_id AS STRING ) AS end_station_id,
+    start_lat,
+    start_lng,
+    end_lat,
+    end_lng,
+    ride_id
+  FROM
+    `dataanalyst2021.cyclistic_bike_share.202010_tripdata`
+  WHERE
+    NOT( start_station_id IS NULL
+      OR end_station_id IS NULL
+      OR start_lat IS NULL
+      OR end_lat IS NULL
+      OR start_station_name LIKE '%CHECKING%'
+      OR end_station_name LIKE '%CHECKING%'
+      OR timestamp_diff (ended_at,
+        started_at,
+        minute) < 1 )
+  UNION ALL
+    # November 2020
+  SELECT
+    rideable_type,
+    member_casual,
+    EXTRACT(DAYOFWEEK
+    FROM
+      started_at) AS day_of_week,
+    start_station_name,
+    end_station_name,
+    timestamp_diff (ended_at,
+      started_at,
+      minute) AS trip_duration,
+    CAST(started_at AS TIMESTAMP ) AS started_at,
+    CAST(ended_at AS TIMESTAMP ) AS ended_at,
+    CAST(start_station_id AS STRING ) AS start_station_id,
+    CAST(end_station_id AS STRING ) AS end_station_id,
+    start_lat,
+    start_lng,
+    end_lat,
+    end_lng,
+    ride_id
+  FROM
+    `dataanalyst2021.cyclistic_bike_share.202011_tripdata`
+  WHERE
+    NOT( start_station_id IS NULL
+      OR end_station_id IS NULL
+      OR start_lat IS NULL
+      OR end_lat IS NULL
+      OR start_station_name LIKE '%CHECKING%'
+      OR end_station_name LIKE '%CHECKING%'
+      OR timestamp_diff (ended_at,
+        started_at,
+        minute) < 1 )
+  UNION ALL
+    #December 2020
+  SELECT
+    rideable_type,
+    member_casual,
+    EXTRACT(DAYOFWEEK
+    FROM
+      started_at) AS day_of_week,
+    start_station_name,
+    end_station_name,
+    timestamp_diff (ended_at,
+      started_at,
+      minute) AS trip_duration,
+    CAST(started_at AS TIMESTAMP ) AS started_at,
+    CAST(ended_at AS TIMESTAMP ) AS ended_at,
+    CAST(start_station_id AS STRING ) AS start_station_id,
+    CAST(end_station_id AS STRING ) AS end_station_id,
+    start_lat,
+    start_lng,
+    end_lat,
+    end_lng,
+    ride_id
+  FROM
+    `dataanalyst2021.cyclistic_bike_share.202012_tripdata`
+  WHERE
+    NOT( start_station_id IS NULL
+      OR end_station_id IS NULL
+      OR start_lat IS NULL
+      OR end_lat IS NULL
+      OR start_station_name LIKE '%CHECKING%'
+      OR end_station_name LIKE '%CHECKING%'
+      OR timestamp_diff (ended_at,
+        started_at,
+        minute) < 1 )
+  UNION ALL
+    #January 2021
+  SELECT
+    rideable_type,
+    member_casual,
+    EXTRACT(DAYOFWEEK
+    FROM
+      started_at) AS day_of_week,
+    start_station_name,
+    end_station_name,
+    timestamp_diff (ended_at,
+      started_at,
+      minute) AS trip_duration,
+    CAST(started_at AS TIMESTAMP ) AS started_at,
+    CAST(ended_at AS TIMESTAMP ) AS ended_at,
+    CAST(start_station_id AS STRING ) AS start_station_id,
+    CAST(end_station_id AS STRING ) AS end_station_id,
+    start_lat,
+    start_lng,
+    end_lat,
+    end_lng,
+    ride_id
+  FROM
+    `dataanalyst2021.cyclistic_bike_share.202101_tripdata`
+  WHERE
+    NOT( start_station_id IS NULL
+      OR end_station_id IS NULL
+      OR start_lat IS NULL
+      OR end_lat IS NULL
+      OR start_station_name LIKE '%CHECKING%'
+      OR end_station_name LIKE '%CHECKING%'
+      OR timestamp_diff (ended_at,
+        started_at,
+        minute) < 1 )
+  UNION ALL
+    #February 2021
+  SELECT
+    rideable_type,
+    member_casual,
+    EXTRACT(DAYOFWEEK
+    FROM
+      started_at) AS day_of_week,
+    start_station_name,
+    end_station_name,
+    timestamp_diff (ended_at,
+      started_at,
+      minute) AS trip_duration,
+    CAST(started_at AS TIMESTAMP ) AS started_at,
+    CAST(ended_at AS TIMESTAMP ) AS ended_at,
+    CAST(start_station_id AS STRING ) AS start_station_id,
+    CAST(end_station_id AS STRING ) AS end_station_id,
+    start_lat,
+    start_lng,
+    end_lat,
+    end_lng,
+    ride_id
+  FROM
+    `dataanalyst2021.cyclistic_bike_share.202102_tripdata`
+  WHERE
+    NOT( start_station_id IS NULL
+      OR end_station_id IS NULL
+      OR start_lat IS NULL
+      OR end_lat IS NULL
+      OR start_station_name LIKE '%CHECKING%'
+      OR end_station_name LIKE '%CHECKING%'
+      OR timestamp_diff (ended_at,
+        started_at,
+        minute) < 1 )
+  UNION ALL
+    #March 2021
+  SELECT
+    rideable_type,
+    member_casual,
+    EXTRACT(DAYOFWEEK
+    FROM
+      started_at) AS day_of_week,
+    start_station_name,
+    end_station_name,
+    timestamp_diff (ended_at,
+      started_at,
+      minute) AS trip_duration,
+    CAST(started_at AS TIMESTAMP ) AS started_at,
+    CAST(ended_at AS TIMESTAMP ) AS ended_at,
+    CAST(start_station_id AS STRING ) AS start_station_id,
+    CAST(end_station_id AS STRING ) AS end_station_id,
+    start_lat,
+    start_lng,
+    end_lat,
+    end_lng,
+    ride_id
+  FROM
+    `dataanalyst2021.cyclistic_bike_share.202103_tripdata`
+  WHERE
+    NOT( start_station_id IS NULL
+      OR end_station_id IS NULL
+      OR start_lat IS NULL
+      OR end_lat IS NULL
+      OR start_station_name LIKE '%CHECKING%'
+      OR end_station_name LIKE '%CHECKING%'
+      OR timestamp_diff (ended_at,
+        started_at,
+        minute) < 1 )
+  UNION ALL
+    #April 2021
+  SELECT
+    rideable_type,
+    member_casual,
+    EXTRACT(DAYOFWEEK
+    FROM
+      started_at) AS day_of_week,
+    start_station_name,
+    end_station_name,
+    timestamp_diff (ended_at,
+      started_at,
+      minute) AS trip_duration,
+    CAST(started_at AS TIMESTAMP ) AS started_at,
+    CAST(ended_at AS TIMESTAMP ) AS ended_at,
+    CAST(start_station_id AS STRING ) AS start_station_id,
+    CAST(end_station_id AS STRING ) AS end_station_id,
+    start_lat,
+    start_lng,
+    end_lat,
+    end_lng,
+    ride_id
+  FROM
+    `dataanalyst2021.cyclistic_bike_share.202104_tripdata`
+  WHERE
+    NOT( start_station_id IS NULL
+      OR end_station_id IS NULL
+      OR start_lat IS NULL
+      OR end_lat IS NULL
+      OR start_station_name LIKE '%CHECKING%'
+      OR end_station_name LIKE '%CHECKING%'
+      OR timestamp_diff (ended_at,
+        started_at,
+        minute) < 1 )
+  UNION ALL
+    #May 2021
+  SELECT
+    rideable_type,
+    member_casual,
+    EXTRACT(DAYOFWEEK
+    FROM
+      started_at) AS day_of_week,
+    start_station_name,
+    end_station_name,
+    timestamp_diff (ended_at,
+      started_at,
+      minute) AS trip_duration,
+    CAST(started_at AS TIMESTAMP ) AS started_at,
+    CAST(ended_at AS TIMESTAMP ) AS ended_at,
+    CAST(start_station_id AS STRING ) AS start_station_id,
+    CAST(end_station_id AS STRING ) AS end_station_id,
+    start_lat,
+    start_lng,
+    end_lat,
+    end_lng,
+    ride_id
+  FROM
+    `dataanalyst2021.cyclistic_bike_share.202105_tripdata`
+  WHERE
+    NOT( start_station_id IS NULL
+      OR end_station_id IS NULL
+      OR start_lat IS NULL
+      OR end_lat IS NULL
+      OR start_station_name LIKE '%CHECKING%'
+      OR end_station_name LIKE '%CHECKING%'
+      OR timestamp_diff (ended_at,
+        started_at,
+        minute) < 1 )
+  UNION ALL
+    #June 2021
+  SELECT
+    rideable_type,
+    member_casual,
+    EXTRACT(DAYOFWEEK
+    FROM
+      started_at) AS day_of_week,
+    start_station_name,
+    end_station_name,
+    timestamp_diff (ended_at,
+      started_at,
+      minute) AS trip_duration,
+    CAST(started_at AS TIMESTAMP ) AS started_at,
+    CAST(ended_at AS TIMESTAMP ) AS ended_at,
+    CAST(start_station_id AS STRING ) AS start_station_id,
+    CAST(end_station_id AS STRING ) AS end_station_id,
+    start_lat,
+    start_lng,
+    end_lat,
+    end_lng,
+    ride_id
+  FROM
+    `dataanalyst2021.cyclistic_bike_share.202106_tripdata`
+  WHERE
+    NOT( start_station_id IS NULL
+      OR end_station_id IS NULL
+      OR start_lat IS NULL
+      OR end_lat IS NULL
+      OR start_station_name LIKE '%CHECKING%'
+      OR end_station_name LIKE '%CHECKING%'
+      OR timestamp_diff (ended_at,
+        started_at,
+        minute) < 1 ));
+    
+ #ANALYSIS by min, max, sum,mean of ride_length  
 
 SELECT
   rideable_type,
